@@ -1,0 +1,13 @@
+{
+  "domain": "tcg-tuya",
+  "name": "TheCuriousGeek - Tuya Integration",
+  "version": "20250903-221216",
+  "config_flow": true,
+  "documentation": "https://the-curious-geek.blogspot.com/hass/tuya",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [
+    "tinytuya==1.17.2"
+  ],
+  "iot_class": "local_polling"
+}

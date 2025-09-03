@@ -1,0 +1,76 @@
+[
+  {
+    "Name": "Irrigator (ggq)",
+    "ID":"ggq",
+    "Description": "https://developer.tuya.com/en/docs/iot/categoryggq?id=Kaiuz1qib7z0k",
+    "Entities":[
+      {"Name": "Status", "Type": "Sensor", "Parent":"work_state"},
+      {"Name": "Zone1", "Type": "Switch", "Parent":"switch_1"},
+      {"Name": "Zone2", "Type": "Switch", "Parent":"switch_2"},
+      {"Name": "Zone3", "Type": "Switch", "Parent":"switch_3"},
+      {"Name": "Zone4", "Type": "Switch", "Parent":"switch_4"},
+      {"Name": "Zone5", "Type": "Switch", "Parent":"switch_5"},
+      {"Name": "Zone6", "Type": "Switch", "Parent":"switch_6"},
+      {"Name": "Zone7", "Type": "Switch", "Parent":"switch_7"},
+      {"Name": "Zone8", "Type": "Switch", "Parent":"switch_8"}
+    ]
+  },
+  {
+    "Name": "Socket (cz)",
+    "ID":"cz",
+    "Description": "https://developer.tuya.com/en/docs/iot/categorykgczpc?id=Kaiuz08zj1l4y",
+    "Entities":[
+      {"Name": "Switch", "Type": "Switch", "Parent":"switch_1"},
+      {"Name": "Voltage", "Type": "Sensor", "SubType": "voltage", "Parent":"cur_voltage"},
+      {"Name": "Current", "Type": "Sensor", "SubType": "current", "Parent":"cur_current","Code":"v/1000.0"},
+      {"Name": "Power", "Type": "Sensor", "SubType": "power", "Parent":"cur_power"},
+      {"Name": "Energy", "Type": "Energy", "SubType": "energy", "Parent":"cur_power"}
+    ]
+  },
+  {
+    "Name": "Switch (tdq)",
+    "ID":"tdq",
+    "Description": "https://developer.tuya.com/en/docs/iot/categorykgczpc?id=Kaiuz08zj1l4y",
+    "Entities":[
+      {"Name": "Switch1", "Type": "Switch", "Parent":"switch_1"},
+      {"Name": "Switch2", "Type": "Switch", "Parent":"switch_2"},
+      {"Name": "Switch3", "Type": "Switch", "Parent":"switch_3"},
+      {"Name": "Switch4", "Type": "Switch", "Parent":"switch_4"}
+    ]
+  },
+  {
+    "Name":"Circuit Breaker (dlq)",
+    "ID":"dlq",
+    "Description":"https://developer.tuya.com/en/docs/iot/dlq?id=Kb0kidk9enyh8",
+    "Entities":[
+      {"Name": "Switch", "ID":"switch"},
+      {"Name": "Temperature", "Type": "Sensor", "SubType": "temperature", "Parent":"temp_current"},
+      {"Name": "Voltage", "Type": "Sensor", "SubType": "voltage", "Parent":"cur_voltage"},
+      {"Name": "Voltage", "Type": "Sensor", "SubType": "voltage", "Parent":"phase_a", "Code":"int.from_bytes(v[0:2],'big')/10"},
+      {"Name": "Current", "Type": "Sensor", "SubType": "current", "Parent":"cur_current","Code":"v/1000.0"},
+      {"Name": "Current", "Type": "Sensor", "SubType": "current", "Parent":"phase_a", "Code":"int.from_bytes(v[3:5],'big')/1000"},
+      {"Name": "Power", "Type": "Sensor", "SubType": "power", "Parent":"cur_power"},
+      {"Name": "Power", "Type": "Sensor", "SubType": "power", "Parent":"phase_a", "Code":"int.from_bytes(v[6:8],'big')"},
+      {"Name": "Energy", "Type": "Energy", "SubType": "energy", "Parent":"Power"}
+    ]
+  },
+  {
+    "Name": "Smart Lock (ms)",
+    "ID":"ms",
+    "Description": "https://developer.tuya.com/en/docs/iot/ms?id=Kb0o2s20fn9sy",
+    "Entities":[
+      {"Name": "Status", "Type": "BinarySensor", "SubType": "door", "Parent":"lock_motor_state"},
+      {"Name": "Battery", "Type": "Sensor", "SubType": "battery", "Parent":"residual_electricity"},
+      {"Name": "Open", "Type": "Switch", "SubType": "lock", "Parent":"bluetooth_unlock", "Code":"'AQE=' if v else 'AAE='"}
+    ]
+  },
+  {
+    "Name": "Water Detector (sj)",
+    "ID":"sj",
+    "Description": "https://developer.tuya.com/en/docs/iot/categorysj?id=Kaiuz3iub2sli",
+    "Entities":[
+      {"Name": "Alarm", "Type": "BinarySensor", "SubType": "door", "Parent":"watersensor_state", "Code":"v=='alarm'"},
+      {"Name": "Battery", "Type": "Sensor", "SubType": "battery", "Parent":"battery_percentage"}
+    ]
+  }
+]
