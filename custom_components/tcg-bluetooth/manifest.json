@@ -1,0 +1,11 @@
+{
+  "domain": "tcg-bluetooth",
+  "name": "TheCuriousGeek - Bluetooth Integration",
+  "version": "20250903-221422",
+  "config_flow": true,
+  "documentation": "https://the-curious-geek.blogspot.com/hass/bluetooth",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [],
+  "iot_class": "local_polling"
+}
