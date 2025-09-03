@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}/vault-server:latest
+          tags: ghcr.io/thecuriuousgeek/vault-server:latest
