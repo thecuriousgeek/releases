@@ -1,0 +1,13 @@
+<h2>Vault Server (Docker)</h2>
+This is a server that stores files in encrypted vaults. Encryption is implemented using 256 bit AES using standard python library. <br>
+The data can also be decrypted using a windows app like VaultWindows (here)<br>
+This server exposes the vault over http(s) (for browser use) or WebDAV (over https, to be mounted in windows, mac or android)
+<h3>Usage</h3>
+The server needs access to a folder where all vaults are stored (/Vault in example)
+<code>
+docker run -it -p 8080:80 -v {VaultFolder}:/Vault ghcr.io/thecuriousgeek/vault-server -f /Vault
+</code>
+To run under https accessible in host server.local
+<code>
+docker run -it -p 8443:443 -v {VaultFolder}:/Vault ghcr.io/thecuriousgeek/vault-server -f /Vault -h server.local
+</code>
