@@ -1,0 +1,13 @@
+<h2>Vault for Windows</h2>
+This is a simple windows app that saves important files in an encrypted vault<br>
+The vault can be located on any folder on disk. THe actual file name is encrypted with the user provided password using DES encryption while the data is encrypted using 256 bit AES<br>
+The app is developed using .NET and uses the dotnet cryptography library for all encryption and decryption
+<h3>Installation & Usage</h3>
+The app is totally portable and only needs the main executable and a couple of configuration files (all in the zip). To start the app use<br>
+<code>Vault {FolderWhereVaultsAreStored</code><p>
+The app starts in the system tray and has a debug window open.
+<h3>Using Vault</h3>
+  You can create a new vault (password is optional, without password the vault is not encrypted).<br>
+You can open any existing vault (will prompt for password if vault is encrypted) and once open, the vault is available as a new drive on your system<br>
+Vault contents can be used just like any other file storage<br>
+Vaults will timeout after 10 minutes (for security)
