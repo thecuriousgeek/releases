@@ -51,8 +51,8 @@ jobs:
       - name: Zip build artifacts
         run: |
           cd source/out
-          zip -r ../${{ env.TAG }}.zip .
-          cp ../${{ env.TAG }}.zip ../latest.zip
+          zip -r ../../${{ env.TAG }}.zip .
+          cp ../../${{ env.TAG }}.zip ../../latest.zip
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v1
         with:
