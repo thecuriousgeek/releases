@@ -37,7 +37,7 @@ jobs:
             ghcr.io/thecuriousgeek/cert-gen:latest
             ghcr.io/thecuriousgeek/cert-gen:${{ env.TAG }}
       - name: Copy readme
-        run: cp release-tmp/readme.md ./cert-gen.html
+        run: cp release-tmp/README.md ./cert-gen.html
 
       # Commit and push to your repo
       - name: Commit file
