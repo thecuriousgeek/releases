@@ -2,6 +2,6 @@
 This repository contains all the releases by TheCuriousGeek
 <p></p>
 <ul>
-<li><a href=thecuriousgeek.github.io/releases/cert-gen.html>Certificate Generator - Small utility to generate self signed certificates</a></li>
-<li><a href=thecuriousgeek.github.io/releases/vault-server.html>Vault Server - Simple docker encrypted vault serving http(s) and WebDAV</a></li>
+<li>Certificate Generator - Small utility to generate self signed certificates <a href=https://thecuriousgeek.github.io/releases/cert-gen.html>more info</a></li>
+<li>Vault Server - Simple docker encrypted vault serving http(s) and WebDAV (https://thecuriousgeek.github.io/releases/cert-gen.html)</li>
 </ul>  
