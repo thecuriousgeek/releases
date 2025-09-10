@@ -64,8 +64,8 @@ jobs:
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: tcg-tuya
-          name: "TheCuriousGeek - Tuya"
+          tag_name: hass-tuya
+          name: "Home Assistant - Tuya"
           files: |
             ${{ env.TAG }}.zip
             latest.zip
