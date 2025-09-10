@@ -1,0 +1,7 @@
+<h2>MyMedia Server</h2>
+This is a simple media server that offers API access to media (photos, music, videos and ebooks). THe server works in conjunction with MyMedia.Client which offers windows and web front-ends
+<h3>Usage</h3>
+This app run under docker. One of the argument (/media in this example) is the location of all media files
+<code>
+docker run -p 8080:80 -v {MediaFolder}:/media ghcr.io/mymedia-server -f /media
+</code>
