@@ -1,4 +1,4 @@
-name: Release Vault Windows zip
+name: Release Vault for Windows 
 on:
   workflow_dispatch: # manual trigger only
 permissions:
