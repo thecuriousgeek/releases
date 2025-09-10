@@ -17,7 +17,7 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@v4
         with:
-          repository: thecuriousgeek/CertificateManager
+          repository: thecuriousgeek/CertificateGenerator
           token: ${{ secrets.GH_PAT }}
           path: release-tmp
       - name: Log in to GitHub Container Registry
