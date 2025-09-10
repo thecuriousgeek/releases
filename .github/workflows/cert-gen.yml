@@ -28,8 +28,9 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add ./cert-gen.html
-          git commit -m "Update readme.md"
+          git add cert-gen.html
+          git diff-index --quiet HEAD || git commit -m "Update README.md"
+          git push
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
