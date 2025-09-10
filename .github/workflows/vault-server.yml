@@ -17,7 +17,7 @@ jobs:
       - name: Checkout source repo
         uses: actions/checkout@v4
         with:
-          repository: thecuriousgeek/VaultServer
+          repository: thecuriousgeek/Vault.Server
           submodules: recursive  
           token: ${{ secrets.GH_PAT }}
           path: source
