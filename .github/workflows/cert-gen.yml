@@ -23,6 +23,7 @@ jobs:
       - name: Checkout current repo
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GH_PAT }}
           path: current
       - name: Copy readme
         run: cp source/README.md current/cert-gen.html
