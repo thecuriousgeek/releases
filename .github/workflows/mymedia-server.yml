@@ -1,0 +1,54 @@
+name: Release MyMedia Server Docker Image
+on:
+  workflow_dispatch: # manual trigger only
+permissions:
+  contents: read
+  packages: write
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate datetime tag
+        id: tag
+        run: |
+          TAG="$(date -u +'%Y%m%d')"
+          echo "Generated tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: thecuriousgeek/MyMedia.Server
+          submodules: recursive  
+          token: ${{ secrets.GH_PAT }}
+          path: source
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          path: current
+      - name: Copy readme
+        run: cp source/README.md current/mymedia-server.html
+      - name: Commit readme
+        run: |
+          cd current
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add mymedia-server.html
+          git diff-index --quiet HEAD || git commit -m "Update mymedia-server readme"
+          git push
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: source
+          push: true
+          tags: |
+            ghcr.io/thecuriousgeek/mymedia-server:latest
+            ghcr.io/thecuriousgeek/mymedia-server:${{ env.TAG }}
