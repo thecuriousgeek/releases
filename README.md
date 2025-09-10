@@ -7,4 +7,5 @@ This repository contains all the releases by TheCuriousGeek
 <li>Vault Windows - Simple windows app to encrypt files in a vault <a href=https://thecuriousgeek.github.io/releases/vault-windows.html>more info</a></li>
 <li>MyMedia Server - Simple docker media server to manage all media (photos, audio, video and ebooks) <a href=https://thecuriousgeek.github.io/releases/mymedia-server.html>more info</a></li>
 <li>Home Assistant - Tuya - A custom component to manage Tuya devices in Home Assistant <a href=https://thecuriousgeek.github.io/releases/hass-tuya.html>more info</a></li>
+<li>Home Assistant - Bluetooth - A custom component to manage Bluetooth devices in Home Assistant <a href=https://thecuriousgeek.github.io/releases/hass-bluetooth.html>more info</a></li>
 </ul>  
