@@ -28,9 +28,10 @@ jobs:
         run: cp source/README.md current/cert-gen.html
       - name: Commit readme
         run: |
+          cd current
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add current/cert-gen.html
+          git add cert-gen.html
           git diff-index --quiet HEAD || git commit -m "Update README.md"
           git push
       - name: Log in to GitHub Container Registry
