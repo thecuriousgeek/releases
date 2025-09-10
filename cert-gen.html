@@ -1,0 +1,28 @@
+<h2>Certificate Generator</h2>
+This is a simple program to generate self signed certificates for hosting applications providing https services
+<h3>Usage</h3>
+Execution is a simple docker command line<br>
+<code>docker run -it -v /data:{FolderToStoreCert} ghcr.io/thecuriousgeek/cert-gen -o /data/{OutputPrefix}-h {HostName} -h {HostName2}...</code>
+<p>
+This would generate the certificate ({OutputPrefix}.crt and .key) in the {FolderToStoreCert} directory
+<h3>Using Certificates</h3>
+<h4>Caddy</h4>
+In your Caddyfile have the following lines<br>
+<code>
+#Assuming the certificate is in /cert/caddy.crt and /cert/caddy.key
+https://*.MyDomain {
+  tls /cert/caddy.crt /cert/caddy.key
+  @app host app.*
+  handle @app {
+    reverse_proxy localhost:80
+  }
+}
+</code>
+<h4>Python app with FastAPI</h4>
+<code>
+#Assume that the cert and key files are in ./mydomain.crt and ./mydomain.key
+_Config = uvicorn.Config(App,host='0.0.0.0',port=_Port,log_level='warning',ssl_certfile='mydomain.crt',ssl_keyfile='mydomain.key')
+_Server = uvicorn.Server(_Config)
+_Server.serve()
+</code>
+
