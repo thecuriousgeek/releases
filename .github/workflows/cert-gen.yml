@@ -36,3 +36,14 @@ jobs:
           tags: |
             ghcr.io/thecuriousgeek/cert-gen:latest
             ghcr.io/thecuriousgeek/cert-gen:${{ env.TAG }}
+      - name: Copy readme
+        run: cp release-tmp/readme.md ./cert-gen.html
+
+      # Commit and push to your repo
+      - name: Commit file
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add cert-gen.html
+          git commit -m "Update readme.md"
+         
