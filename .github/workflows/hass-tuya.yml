@@ -1,0 +1,73 @@
+name: Release Hass Tuya component
+on:
+  workflow_dispatch: # manual trigger only
+permissions:
+  contents: read
+  packages: write
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate datetime tag
+        id: tag
+        run: |
+          TAG="$(date -u +'%Y%m%d')"
+          echo "Generated tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: thecuriousgeek/HassTuya
+          submodules: recursive  
+          token: ${{ secrets.GH_PAT }}
+          path: source
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          path: current
+      - name: Copy readme
+        run: cp source/README.md current/hass-tuya.html
+      - name: Commit readme
+        run: |
+          cd current
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add hass-tuya.html
+          git diff-index --quiet HEAD || git commit -m "Update hass-tuya readme"
+          git push
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare HACS folder structure
+        run: |
+          mkdir -p release/custom_components/tcg-tuya
+          cp source/*.json release/custom_components/tcg-tuya/
+          cp source/*.py release/custom_components/tcg-tuya/
+          cp -r source/Tuya release/custom_components/tcg-tuya/ 2>/dev/null || true
+          cp -r source/LibHass release/custom_components/tcg-tuya/ 2>/dev/null || true
+          cp -r source/LibPython release/custom_components/tcg-tuya/ 2>/dev/null || true
+          cp -r source/translations release/custom_components/tcg-tuya/ 2>/dev/null || true
+      - name: Update version in manifest.json
+        run: |
+          jq --arg v "$TAG" '.version=$v' release/custom_components/tcg-tuya/manifest.json > tmp.json
+          mv tmp.json release/custom_components/tcg-tuya/manifest.json
+          echo "Updated manifest.json to version $TAG"
+      - name: Zip build artifacts
+        run: |
+          cd release
+          zip -r ../${{ env.TAG }}.zip .
+          cp ../${{ env.TAG }}.zip ../latest.zip
+      - name: Create GitHub Release & Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: tcg-tuya
+          name: "TheCuriousGeek - Tuya"
+          files: |
+            ${{ env.TAG }}.zip
+            latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
