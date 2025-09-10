@@ -19,16 +19,18 @@ jobs:
         with:
           repository: thecuriousgeek/CertificateGenerator
           token: ${{ secrets.GH_PAT }}
-          path: release-tmp
+          path: source
       - name: Checkout current repo
         uses: actions/checkout@v4
+        with:
+          path: current
       - name: Copy readme
-        run: cp release-tmp/README.md ./cert-gen.html         
+        run: cp source/README.md current/cert-gen.html
       - name: Commit readme
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add ./cert-gen.html
+          git add current/cert-gen.html
           git diff-index --quiet HEAD || git commit -m "Update README.md"
           git push
       - name: Log in to GitHub Container Registry
@@ -42,7 +44,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: release-tmp
+          context: source
           push: true
           tags: |
             ghcr.io/thecuriousgeek/cert-gen:latest
