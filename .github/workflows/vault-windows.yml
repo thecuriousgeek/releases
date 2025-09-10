@@ -1,0 +1,66 @@
+name: Release Vault Windows zip
+on:
+  workflow_dispatch: # manual trigger only
+permissions:
+  contents: read
+  packages: write
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate datetime tag
+        id: tag
+        run: |
+          TAG="$(date -u +'%Y%m%d')"
+          echo "Generated tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          repository: thecuriousgeek/Vault.Windows
+          token: ${{ secrets.GH_PAT }}
+          path: source
+      - name: Checkout current repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+          path: current
+      - name: Copy readme
+        run: cp source/README.md current/vault-windows.html
+      - name: Commit readme
+        run: |
+          cd current
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add vault-windows.html
+          git diff-index --quiet HEAD || git commit -m "Update vault-windows readme"
+          git push
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: source
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+        working-directory: source
+      - name: Publish
+        run: dotnet publish -c Release -o out
+        working-directory: source
+      - name: Zip build artifacts
+        run: |
+          cd source/out
+          zip -r ../${{ env.TAG }}.zip .
+          cp ../${{ env.TAG }}.zip ../latest.zip
+      - name: Create GitHub Release & Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          repository: thecuriousgeek/releases
+          tag_name: vault-windows
+          name: "Vault - Windows"
+          files: |
+            ${{ env.TAG }}.zip
+            latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
