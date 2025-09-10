@@ -1,7 +1,7 @@
 <h2>TheCuriousGeek Releases</h2>
 This repository contains all the releases by TheCuriousGeek
 <p></p>
-Some of the releases are docker images, hence not visible. These are
 <ul>
-<li>Vault Server - ghcr.io/thecuriousgeek/vault-server</li>
+<li><a href=cert-gen.html>Certificate Generator - Small utility to generate self signed certificates</a></li>
+<li><a href=vault-server.html>Vault Server - Simple docker encrypted vault serving http(s) and WebDAV</a></li>
 </ul>  
