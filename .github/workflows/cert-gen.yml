@@ -14,21 +14,21 @@ jobs:
           TAG="$(date -u +'%Y%m%d')"
           echo "Generated tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
-      - name: Checkout current repo
-        uses: actions/checkout@v4
       - name: Checkout source repo
         uses: actions/checkout@v4
         with:
           repository: thecuriousgeek/CertificateGenerator
           token: ${{ secrets.GH_PAT }}
           path: release-tmp
+      - name: Checkout current repo
+        uses: actions/checkout@v4
       - name: Copy readme
         run: cp release-tmp/README.md ./cert-gen.html         
       - name: Commit readme
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add cert-gen.html
+          git add ./cert-gen.html
           git diff-index --quiet HEAD || git commit -m "Update README.md"
           git push
       - name: Log in to GitHub Container Registry
