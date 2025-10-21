@@ -71,3 +71,8 @@ jobs:
             latest.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Copy and tag files
+        run: |
+          cd release
+          git add .
+          git commit -a -m "Release ${{ env.TAG }}"
