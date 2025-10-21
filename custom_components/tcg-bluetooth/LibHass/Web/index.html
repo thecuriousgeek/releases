@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Hub</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script type="text/javascript" src="/scripts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/css/theme.default.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
+  <script>
+    var TimeoutID=0;
+    function LoadContent() {
+      //Clear the timers
+      if (TimeoutID>0) {
+        clearTimeout(TimeoutID);
+        TimeoutID=0;        
+      }
+      l = document.getElementsByClassName("tablink");
+      for (i = 0; i < l.length; i++) {
+        l[i].className = l[i].className.replace(" active", "");
+      }
+      fetch('/api/devices')
+        .then(response => response.json())
+        .then(data => { RenderData(data); TimeoutID=setTimeout(()=>{LoadContent();}, 5000); })
+        .catch(error => { console.error(error); });      
+    }
+    function RenderData(pDevices) {
+      _Table = document.getElementById("Devices");
+      _Body = document.getElementById('Data');
+      _Body.innerHTML = '';
+      pDevices.forEach(_Device => {
+        _Row = document.createElement("tr");
+        _Cell = document.createElement("td");
+        _Cell.textContent = (_Device.Name || 'Unknown');
+        if (!_Device.IsRegistered && _Device.Category) {
+          _Link = document.createElement("img");
+          _Link.src = "add.gif";
+          _Link.title = "Register Device";
+          _Link.onclick = function () {Alert('POST','/api/register/'+_Device.ID);}
+          _Cell.appendChild(_Link)
+        }
+        else if (_Device.Category) {
+          _Link = document.createElement("img");
+          _Link.src = "delete.gif";
+          _Link.title = "De-Register Device";
+          _Link.onclick = function () {Alert('DELETE','/api/register/'+_Device.ID);}
+          _Cell.appendChild(_Link)
+        }
+        if (_Device.IsConnected && _Device.Category) {
+          _Row.style.fontWeight = "bold";
+          _Link = document.createElement("img");
+          _Link.src = "status.gif";
+          _Link.title = "Device Status";
+          _Link.onclick = function () {PopupOpen('Status of '+_Device.Name,'/device.html?device='+_Device.ID);}
+          _Cell.appendChild(_Link)
+          _Link = document.createElement("img");
+          _Link.src = "refresh.gif";
+          _Link.title = "Refresh";
+          _Link.onclick = function () {Alert('GET','/api/refresh/'+_Device.ID);}
+          _Cell.appendChild(_Link)
+        }
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        _Cell.textContent = _Device.Category
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        _Cell.textContent = _Device.IsDetected?_Device.Detected:''
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        _Cell.textContent = _Device.IsConnected?_Device.Connected:''
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        _Cell.textContent = _Device.IsConnected?_Device.Updated:''
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        _Cell.textContent = _Device.IsConnected?_Device.Refreshed:''
+        _Row.appendChild(_Cell);
+        _Cell = document.createElement("td");
+        if (_Device.IsConnected)
+          _Cell.textContent = _Device.Entities;
+        else
+          _Cell.textContent = '';
+        _Row.appendChild(_Cell);
+        _Body.appendChild(_Row)
+      });
+      $('#Devices').trigger('update')
+    }
+  </script>
+</head>
+<body onkeydown="KeyDown(event)">
+  <h2>Devices</h2>
+  <table id="Devices" class="tablesorter">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Detected</th>
+        <th>Connected</th>
+        <th>Updated</th>
+        <th>Refreshed</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody id="Data">        
+    </tbody>
+  </table>
+  <script>
+    LoadContent();
+    $('#Devices').tablesorter();
+  </script>
+</body>
+</html>
