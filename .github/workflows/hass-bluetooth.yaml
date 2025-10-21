@@ -64,8 +64,8 @@ jobs:
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: hass-bluetooth
-          name: "Home Assistant - Bluetooth"
+          tag_name: ${{ env.TAG }}
+          name: "Home Assistant - Bluetooth ${{ env.TAG }}"
           files: |
             ${{ env.TAG }}.zip
             latest.zip
@@ -73,6 +73,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       - name: Copy and tag files
         run: |
-          cd release
-          git add .
-          git commit -a -m "Release ${{ env.TAG }}"
+          cd current
+          mkdir -p custom_components
+          rm -rf custom_components/tcg-bluetooth
+          cp -r ../release/custom_components/tcg-bluetooth custom_components/
+          git add custom_components/tcg-bluetooth
+          git commit -m "Release ${{ env.TAG }}" || echo "No changes"
+          git push
