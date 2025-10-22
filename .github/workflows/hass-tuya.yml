@@ -2,7 +2,7 @@ name: Release Hass Tuya component
 on:
   workflow_dispatch: # manual trigger only
 permissions:
-  contents: read
+  contents: write
   packages: write
 jobs:
   build-and-push:
@@ -36,12 +36,6 @@ jobs:
           git add hass-tuya.html
           git diff-index --quiet HEAD || git commit -m "Update hass-tuya readme"
           git push
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Prepare HACS folder structure
         run: |
           mkdir -p release/custom_components/tcg-tuya
@@ -64,8 +58,8 @@ jobs:
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: hass-tuya
-          name: "Home Assistant - Tuya"
+          tag_name: "tcg-tuya ${{ env.TAG }}"
+          name: "Home Assistant - Tuya ${{ env.TAG }}"
           files: |
             ${{ env.TAG }}.zip
             latest.zip
