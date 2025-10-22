@@ -71,3 +71,12 @@ jobs:
             latest.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+      - name: Copy and tag files
+        run: |
+          cd current
+          mkdir -p custom_components
+          rm -rf custom_components/tcg-tuya
+          cp -r ../release/custom_components/tcg-tuya custom_components/
+          git add custom_components/tcg-tuya
+          git commit -m "Release ${{ env.TAG }}" || echo "No changes"
+          git push
