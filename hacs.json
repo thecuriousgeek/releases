@@ -1,0 +1,11 @@
+{
+  "name": "The Curious Geek - Custom Components",
+  "content_in_root": false,
+  "render_readme": true,
+  "domains": [
+    "tcg-tuya",
+    "tcg-bluetooth"
+  ],
+  "homeassistant": "2024.1.0",
+  "country": "US"
+}
