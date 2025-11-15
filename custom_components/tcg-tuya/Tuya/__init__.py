@@ -1,4 +1,6 @@
 import os
+TEMPLATE_FILE=FILE=os.path.dirname(__file__)+'/../template.json'
+CLOUDCACHE_FILE=FILE=os.path.dirname(__file__)+'/../cloud.json'
 import LibPython
 import LibHass 
 Name=None
@@ -42,7 +44,7 @@ async def Init(pName:str,pHass)->None:
   Scanner.Start()
   
 async def Reload()->None:
-  os.remove('cloud.json')
+  os.remove(CLOUDCACHE_FILE)
   if LibHass.IS_ADDON: await LibHass.Hass.async_add_executor_job(Cloud.Load)
   else: Cloud.Load()
   

@@ -1,7 +1,7 @@
 #This is called directly by Home Assistant loader
 import sys
 import os
-os.chdir(os.path.dirname(__file__))
+# os.chdir(os.path.dirname(__file__))
 sys.path.insert(1, os.path.dirname(__file__))
 import LibPython
 import Tuya

@@ -116,27 +116,23 @@ class WebServer(AsyncTask):
       _Data = await self._Request.body()
       return _Data
     return None
-  @property
-  def QueryString(self):
-    if not hasattr(self,'_QueryString'):
-      self._QueryString = Dynamic(CaseSensitive=False)
-      _Param = self._Request.query_params
-      for k,v in _Param.items():
-        if v.startswith(('{','[','(')):
-          self._QueryString.Set(k,ast.literal_eval(v))
-        else:
-          self._QueryString.Set(k,v)
-    return self._QueryString
   #endregion
 
   #May be overridden by the implementation, but be sure to call super().OnRequest
   async def OnRequest(self,pRequest:Request,pNext):
     _Start = time.perf_counter()
     self._Request = pRequest
+    self.QueryString = Dynamic(CaseSensitive=False)
+    _Param = self._Request.query_params
+    for k,v in _Param.items():
+      if v.startswith(('{','[','(')):
+        self.QueryString.Set(k,ast.literal_eval(v))
+      else:
+        self.QueryString.Set(k,v)
     try:
       _Response = await pNext(pRequest)
     except (asyncio.CancelledError, ConnectionResetError):
-        self.Logger.Onfo("Client disconnected early")
+        self.Logger.Debug("Client disconnected early")
         return None
     _Time = time.perf_counter() - _Start
     self.Logger.Debug(f'{pRequest.method} {pRequest.url} - {_Response.status_code} in {round(_Time*1000)}ms')

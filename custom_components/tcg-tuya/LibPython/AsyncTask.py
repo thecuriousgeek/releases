@@ -16,11 +16,13 @@ class AsyncTask(ABC):
     self.Thread = None
     self.Loop = None
 
-  def Start(self):
-    self.Logger.Info(f'Starting')
+  def Start(self,pBackground=False):
+    self.Logger.Debug(f'Starting')
     atexit.register(self.Stop)
     try:
-      asyncio.get_running_loop().create_task(self.StartAsync())
+      if pBackground:
+        raise RuntimeError(None)
+      else: asyncio.get_running_loop().create_task(self.StartAsync())
     except RuntimeError:
       self.Thread = threading.Thread(target=asyncio.run,args=[self.StartAsync()],daemon=True,name=self.Name)
       self.Thread.start()
@@ -32,7 +34,7 @@ class AsyncTask(ABC):
       await self.End()
       return
     while not self.CommandStop.is_set():
-      self.Logger.Debug('RunBegin')
+      self.Logger.Trace('RunBegin')
       _Start = datetime.now()
       _RunResult = False
       try:
@@ -42,7 +44,7 @@ class AsyncTask(ABC):
         with contextlib.suppress(asyncio.TimeoutError):
           await asyncio.wait_for(self.CommandStop.wait(),30)
         continue
-      self.Logger.Debug('RunEnd')
+      self.Logger.Trace('RunEnd')
       if self.CommandStop.is_set(): break
       if not _RunResult: break
       if (datetime.now()-_Start).total_seconds() < self.Interval:
@@ -51,14 +53,14 @@ class AsyncTask(ABC):
     await self.End()
 
   def Stop(self):
-    self.Logger.Info('Stopping')
+    self.Logger.Debug('Stopping')
     self.CommandStop.set()
     atexit.unregister(self.Stop)
     if self.Thread: self.Thread.join()
     gc.collect()
 
   @abstractmethod
-  async def Run(self)->bool: return False #Returns true if complete so I dont have to force a wait
-  async def Begin(self)->bool: return False #May be overridden, returns False if could not begin
+  async def Run(self)->bool: return True #Returns true if complete so I dont have to force a wait
+  async def Begin(self)->bool: return True #May be overridden, returns False if could not begin
   async def End(self): pass #May be overridden
 

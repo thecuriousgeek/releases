@@ -1,7 +1,7 @@
 {
   "domain": "tcg-tuya",
   "name": "TheCuriousGeek - Tuya Integration",
-  "version": "20251022",
+  "version": "20251115",
   "config_flow": true,
   "documentation": "https://the-curious-geek.blogspot.com/hass/tuya",
   "dependencies": [],

@@ -11,6 +11,7 @@ import tinytuya
 import tuya_sharing
 import LibPython
 import LibHass
+import Tuya
 
 CONF_ENDPOINT = "endpoint"
 CONF_USER_CODE = "user_code"
@@ -27,9 +28,9 @@ class Cloud:
   def Load(self):
     self.Devices.clear()
     _Data = []
-    if os.path.exists('cloud.json'):# and os.stat('cloud.json').st_mtime>time.time()-43200:
+    if os.path.exists(Tuya.CLOUDCACHE_FILE):# and os.stat(Tuya.CLOUDCACHE_FILE).st_mtime>time.time()-43200:
       self.Logger.Debug(f'Load:Loading cached data')
-      _Data = [LibPython.Dynamic(x) for x in json.loads(open('cloud.json','r').read())]
+      _Data = [LibPython.Dynamic(x) for x in json.loads(open(Tuya.CLOUDCACHE_FILE,'r').read())]
     else:
       self.Logger.Debug(f'Load:Retrieving from cloud')
       from . import Config
@@ -40,7 +41,7 @@ class Cloud:
       else: 
         self.Logger.Warning('Load:No settings defined')
         return
-      json.dump(_Data,open('cloud.json','w'),default=lambda o: o.__dict__,indent=2,sort_keys=True)
+      json.dump(_Data,open(Tuya.CLOUDCACHE_FILE,'w'),default=lambda o: o.__dict__,indent=2,sort_keys=True)
     self.Logger.Info(f'Load:Loaded {len(_Data)} devices')
     self.Devices.clear()
     for d in _Data:

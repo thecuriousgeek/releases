@@ -11,8 +11,8 @@ class TcgTuyaConfigFlow(config_entries.ConfigFlow,domain='tcg-tuya'):
 
   async def async_step_user(self, pData):
     await Tuya.Init(__package__,self.hass)
-    if self.hass.config_entries.async_entry_for_domain_unique_id(self.handler,Tuya.Name):
-      return self.async_abort(reason="already_configured")
+    # if self.hass.config_entries.async_entry_for_domain_unique_id(self.handler,Tuya.Name):
+    #   return self.async_abort(reason="already_configured")
     return await self.async_step_Cloud(None)
 
   async def async_step_Cloud(self, pData):
@@ -27,8 +27,9 @@ class TcgTuyaConfigFlow(config_entries.ConfigFlow,domain='tcg-tuya'):
       r = {'us':'United States','eu':'Europe'}
       return self.async_show_form(step_id='CloudApi', data_schema=vol.Schema({vol.Required('ApiKey'):str, vol.Required('Secret'):str, vol.Required('Region'):vol.In(r)}))
     await self.async_set_unique_id(Tuya.Name)
-    self._abort_if_unique_id_configured()
+    #self._abort_if_unique_id_configured()
     Tuya.Config.Cloud = LibPython.Dynamic({'ApiKey':pData['ApiKey'],'Secret':pData['Secret'],'Region':pData['Region']})
+    await Tuya.Reload()
     return self.async_create_entry(title='Tuya Devices', data={'Cloud':Tuya.Config.Cloud})
 
   async def async_step_CloudUser(self, pData):
@@ -45,8 +46,9 @@ class TcgTuyaConfigFlow(config_entries.ConfigFlow,domain='tcg-tuya'):
     if not _Auth:
       return await self.async_step_Cloud(None)
     await self.async_set_unique_id(Tuya.Name)
-    self._abort_if_unique_id_configured()
+    #self._abort_if_unique_id_configured()
     Tuya.Config.Cloud = _Auth
+    await Tuya.Reload()
     return self.async_create_entry(title='Tuya Devices', data={'Cloud':Tuya.Config.Cloud})
 
   def async_get_options_flow(config_entry):

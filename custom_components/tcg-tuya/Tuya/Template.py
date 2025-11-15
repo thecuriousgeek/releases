@@ -1,6 +1,6 @@
 import json
 from types import SimpleNamespace
-import asyncio
+import os
 import LibPython
 import Tuya
 
@@ -9,7 +9,7 @@ class Template():
   __All = None
   def Templates():
     if Template.__All is None:
-      Template.__All=[LibPython.Dynamic(x) for x in json.loads(open('template.json','r').read())]
+      Template.__All=[LibPython.Dynamic(x) for x in json.loads(open(Tuya.TEMPLATE_FILE,'r').read())]
     return Template.__All
   
   def Get(pCategory=None):

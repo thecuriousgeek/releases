@@ -52,7 +52,7 @@ class Device(LibHass.Device):
       self.Entities.Add(Tuya.Sensor(ID='IP',Name='IP',Device=self,Enabled=True,Virtual=True))
       self.Entities.Add(Tuya.Sensor(ID='MACID',Name='MacID',Device=self,Virtual=True))
       self.Entities.Add(Tuya.Sensor(ID='VERSION',Name='Version',Device=self,Virtual=True))
-    for e in pEntities:
+    for e in pEntities or []:
       _Entity = None
       _Config = LibPython.Dynamic(e)
       _Config.Device = self

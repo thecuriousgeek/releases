@@ -8,13 +8,14 @@ else:
 
 class Logger:
   class LEVEL:
-    from logging import DEBUG,INFO,WARNING,ERROR,CRITICAL
+    from logging import DEBUG,INFO,WARNING,ERROR,CRITICAL, NOTSET as TRACE
 
   COLOR_MAP = {
-    LEVEL.DEBUG:"\x1b[38;20m",
-    LEVEL.INFO:"\x1b[32;20m", #Green
-    LEVEL.WARNING:"\x1b[33;20m", #Yellow
-    LEVEL.ERROR:"\x1b[31;20m", #Red
+    LEVEL.TRACE:"\x1b[38m",
+    LEVEL.DEBUG:"\x1b[38m",
+    LEVEL.INFO:"\x1b[32m", #Green
+    LEVEL.WARNING:"\x1b[33m", #Yellow
+    LEVEL.ERROR:"\x1b[31m", #Red
     LEVEL.CRITICAL:"\x1b[31;1m", #Red
   }
   RESET = "\x1b[0m"
@@ -35,6 +36,8 @@ class Logger:
   def Log(self,pLevel,pWhat):
       self.__BaseLogger.log(pLevel,f'{Logger.COLOR_MAP[pLevel]}{pWhat}{Logger.RESET}')
 
+  def Trace(self,pWhat): 
+    self.Log(Logger.LEVEL.TRACE,pWhat)
   def Debug(self,pWhat): 
     self.Log(Logger.LEVEL.DEBUG,pWhat)
   def Info(self,pWhat): 

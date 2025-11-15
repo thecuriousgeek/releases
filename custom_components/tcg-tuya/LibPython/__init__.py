@@ -42,7 +42,7 @@ class Status(AsyncTask):
 
   async def Run(self):
     self.Logger.Info(f'{self.Method()}')
-    return False
+    return True
   
   def Stop(self):
     self.Logger.Info(f'{self.Method()}') #Last time
