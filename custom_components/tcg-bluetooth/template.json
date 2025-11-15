@@ -1,0 +1,77 @@
+[
+  {
+    "Name": "Generic Bluetooth Device",
+    "ID": "Generic",
+    "Match": {"Service":"a201"},
+    "Connect": false,
+    "Refresh": 0,
+    "Expiry": 60,
+    "Entities":[
+      {"Name": "Motion", "Type": "BinarySensor", "Category": "motion", "Code":"True"}
+    ]
+  },
+  {
+    "Name": "BTHome Sensor",
+    "ID": "BTHome",
+    "Match": {"Service":"181c"},
+    "Connect": false,
+    "Refresh": 0,
+    "Expiry": 600,
+    "Entities":[
+      {"Name": "Temperature", "Type": "Sensor", "Category": "temperature", "Unit": "°F"},
+      {"Name": "Humidity", "Type": "Sensor", "Category": "humidity"},
+      {"Name": "Voltage", "Type": "Sensor", "Category": "voltage"},
+      {"Name": "Battery", "Type": "Sensor", "Category": "battery"}
+    ]
+  },
+  {
+    "Name": "BTHome V2 Sensor",
+    "ID": "BTHomeV2",
+    "Match": {"Service":"fcd2"},
+    "Connect": false,
+    "Refresh": 0,
+    "Expiry": 600,
+    "Entities":[
+      {"Name": "Temperature", "Type": "Sensor", "Category": "temperature", "Unit": "°F"},
+      {"Name": "Humidity", "Type": "Sensor", "Category": "humidity"},
+      {"Name": "Voltage", "Type": "Sensor", "Category": "voltage"},
+      {"Name": "Battery", "Type": "Sensor", "Category": "battery"}
+    ]
+  },
+  {
+    "Name": "iTag Button",
+    "ID": "iTag",
+    "Match": {"Name":"iTAG"},
+    "Connect": true,
+    "Refresh": 60,
+    "Entities": [
+      {"Name": "Button", "Type": "BinarySensor", "Service": "ffe0", "Characteristic": "ffe1", "Code":"int.from_bytes(v,'big')"},
+      {"Name": "AlarmVolume", "Type": "Number", "Category": "number", "Service": "1802", "Characteristic": "02a06", "Code":"int.from_bytes(v,'big')"},
+      {"Name": "Battery", "Type": "Sensor", "Category": "battery", "Service": "180f", "Characteristic": "2a19", "Code":"int.from_bytes(v,'big')"}
+    ]
+  },
+  {
+    "Name": "MLE-15 Tag Button",
+    "ID":"MLE-15",
+    "Match": {"Name":"MLE-15"},
+    "Connect": true,
+    "Refresh": 60,
+    "Entities": [
+      {"Name": "Button", "Type": "BinarySensor", "Service": "ffe0", "Characteristic": "ffe1", "Code":"int.from_bytes(v,'big')"},
+      {"Name": "AlarmVolume", "Type": "Number", "Category": "number", "Service": "1802", "Characteristic": "02a06", "Code":"int.from_bytes(v,'big')"},
+      {"Name": "Battery", "Type": "Sensor", "Category": "battery", "Service": "180f", "Characteristic": "2a19", "Code":"int.from_bytes(v,'big')"}
+    ]
+  },
+  {
+    "Name": "TEMU Hygrometer",
+    "ID": "TEMU_Hygrometer",
+    "Match": {"Service":["1812","ffe5"]},
+    "Connect": true,
+    "Refresh": 600,
+    "Entities": [
+      {"Name": "Temperature", "Type": "Sensor", "Category": "temperature", "Unit": "°F", "Service": "ffe5", "Characteristic": "ffe8", "Code":"round(32+(int.from_bytes(v[5:7],'big')/10)*9/5,1)"},
+      {"Name": "Humidity", "Type": "Sensor", "Category": "humidity", "Service": "ffe5", "Characteristic": "ffe8", "Code":"round(int.from_bytes(v[7:9],'big')/10,1)"},
+      {"Name": "Battery", "Type": "Sensor", "Category": "battery", "Service": "180f", "Characteristic": "2a19", "Code":"int.from_bytes(v,'big')"}
+    ]
+  }
+]
