@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -17,9 +17,6 @@ jobs:
           echo "Generated tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Checkout repo
-        uses: actions/checkout@v4
-  
       - name: Checkout Private Repo
         uses: actions/checkout@v4
         with:
@@ -51,10 +48,12 @@ jobs:
           cp ../../${{ env.TAG }}.zip ../../latest.zip
 
       - name: Create GitHub Release & Upload Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: vault-windows
-          name: "FileVault - Windows Client"
+          tag_name: vault-windows-${{ env.TAG }}
+          name: "FileVault - Windows Client (${{ env.TAG }})"
           files: |
             ${{ env.TAG }}.zip
             latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
