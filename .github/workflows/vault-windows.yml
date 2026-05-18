@@ -1,4 +1,4 @@
-name: Vault - Windows Client
+name: FileVault - Windows Client
 on:
   workflow_dispatch:
 
@@ -17,9 +17,6 @@ jobs:
           echo "Generated tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Checkout repo
-        uses: actions/checkout@v4
-  
       - name: Checkout Private Repo
         uses: actions/checkout@v4
         with:
@@ -54,7 +51,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: vault-windows
-          name: "Vault - Windows Client"
+          name: "FileVault - Windows Client"
           files: |
             ${{ env.TAG }}.zip
             latest.zip
