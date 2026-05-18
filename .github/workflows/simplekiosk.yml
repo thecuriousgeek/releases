@@ -1,4 +1,4 @@
-name: SimpleKiosk Release APK
+name: SimpleKiosk
 on:
   workflow_dispatch:
 

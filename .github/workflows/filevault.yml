@@ -1,4 +1,4 @@
-name: MediaShelf
+name: FileVault
 on:
   workflow_dispatch:
 
@@ -23,7 +23,7 @@ jobs:
       - name: Checkout Private Repo
         uses: actions/checkout@v4
         with:
-          repository: 'thecuriousgeek/mediashelf'
+          repository: 'thecuriousgeek/filevault'
           token: ${{ secrets.GH_PAT }}
           path: 'builder'
 
@@ -43,5 +43,5 @@ jobs:
           context: builder
           push: true
           tags: |
-            ghcr.io/thecuriousgeek/mediashelf:latest
-            ghcr.io/thecuriousgeek/mediashelf:${{ env.TAG }}
+            ghcr.io/thecuriousgeek/filevault:latest
+            ghcr.io/thecuriousgeek/filevault:${{ env.TAG }}
