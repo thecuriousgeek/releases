@@ -1,4 +1,4 @@
-name: FileVault - Windows
+name: FileVault Windows
 on:
   workflow_dispatch:
   workflow_call:
@@ -56,7 +56,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: vault-windows-${{ env.TAG }}
-          name: "FileVault - Windows ${{ env.TAG }}"
+          name: "FileVault Windows - Release ${{ env.TAG }}"
           files: |
             FileVault-${{ env.TAG }}.zip
         env:

@@ -52,8 +52,8 @@ jobs:
       - name: Create Local Release
         uses: softprops/action-gh-release@v2
         with:
+          name: SimpleKiosk - Release ${{ env.TAG }}
           tag_name: SimpleKiosk-${{ env.TAG }}
-          name: SimpleKiosk ${{ env.TAG }}
           files: builder/app/build/outputs/apk/debug/simplekiosk-${{ env.TAG }}.apk
           draft: false
           prerelease: false
