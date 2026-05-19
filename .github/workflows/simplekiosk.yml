@@ -43,7 +43,7 @@ jobs:
 
       - name: Build with Gradle
         working-directory: builder
-        run: ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: Create Local Release
         uses: softprops/action-gh-release@v2
