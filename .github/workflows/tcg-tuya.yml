@@ -1,6 +1,11 @@
 name: Home Assistant
 on:
   workflow_dispatch: # manual trigger only
+  workflow_call:
+    inputs:
+      scan-type:
+        required: true
+        type: string
 
 permissions:
   contents: write
