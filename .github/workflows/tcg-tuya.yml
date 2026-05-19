@@ -1,4 +1,4 @@
-name: Build & Release component
+name: Home Assistant
 on:
   workflow_dispatch: # manual trigger only
 

@@ -1,0 +1,50 @@
+name: Everything
+on:
+  workflow_dispatch: # manual trigger only
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  tcg-tuya:
+    uses: ./.github/workflows/tcg-tuya.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  mediashelf:
+    uses: ./.github/workflows/mediashelf.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  filesync:
+    uses: ./.github/workflows/filesync.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  filevault:
+    uses: ./.github/workflows/filevault.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  filevault-windows:
+    uses: ./.github/workflows/filevault-windows.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  notes:
+    uses: ./.github/workflows/notes.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+
+  simplekiosk:
+    uses: ./.github/workflows/simplekiosk.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
