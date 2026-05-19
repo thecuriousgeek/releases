@@ -55,7 +55,7 @@ jobs:
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: vault-windows-${{ env.TAG }}
+          tag_name: filevault-windows-${{ env.TAG }}
           name: "FileVault Windows - Release ${{ env.TAG }}"
           files: |
             FileVault-${{ env.TAG }}.zip
