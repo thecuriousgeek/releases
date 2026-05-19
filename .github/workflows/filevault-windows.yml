@@ -1,4 +1,4 @@
-name: FileVault - Windows Client
+name: FileVault - Windows
 on:
   workflow_dispatch:
   workflow_call:
@@ -56,9 +56,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: vault-windows-${{ env.TAG }}
-          name: "FileVault - Windows Client (${{ env.TAG }})"
+          name: "FileVault - Windows ${{ env.TAG }}"
           files: |
-            ${{ env.TAG }}.zip
-            latest.zip
+            FileVault-${{ env.TAG }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

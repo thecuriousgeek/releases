@@ -7,8 +7,8 @@ permissions:
   packages: write
 
 jobs:
-  tcg-tuya:
-    uses: ./.github/workflows/tcg-tuya.yml
+  homeassistant:
+    uses: ./.github/workflows/homeassistant.yml
     with:
       scan-type: 'deep'
     secrets: inherit
