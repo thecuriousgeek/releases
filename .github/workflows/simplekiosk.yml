@@ -42,7 +42,7 @@ jobs:
           gradle-version: wrapper
 
       - name: Build with Gradle
-        working-directory: ./builder
+        working-directory: builder
         run: ./gradlew assembleDebug
 
       - name: Create Local Release
