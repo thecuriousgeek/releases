@@ -1,0 +1,55 @@
+name: Build & Release component
+on:
+  workflow_dispatch: # manual trigger only
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate datetime tag
+        id: tag
+        run: |
+          TAG="$(date -u +'%Y%m%d')"
+          echo "Generated tag: $TAG"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'thecuriousgeek/homeassistant'
+          token: ${{ secrets.GH_PAT }}
+          submodules: recursive
+          path: builder
+
+      - name: Prepare HASS folder structure
+        run: |
+          mkdir -p release/custom_components/tcg
+          cp -r builder/* release/custom_components/tcg/
+
+      - name: Update version in manifest.json
+        run: |
+          jq --arg v "$TAG" '.version=$v' release/custom_components/tcg/manifest.json > tmp.json
+          mv tmp.json release/custom_components/tcg/manifest.json
+          echo "Updated manifest.json to version $TAG"
+
+      - name: Zip build artifacts
+        run: |
+          cd release
+          zip -r ../${{ env.TAG }}.zip .
+          cp ../${{ env.TAG }}.zip ../latest.zip
+
+      - name: Create GitHub Release & Upload Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          name: "Home Assistant - TCG Addon"
+          tag_name: HomeAssistant-${{ env.TAG }}
+          generate_release_notes: true          
+          files: |
+            ${{ env.TAG }}.zip
+            latest.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}

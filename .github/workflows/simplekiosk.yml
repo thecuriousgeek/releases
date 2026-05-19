@@ -16,9 +16,6 @@ jobs:
           TAG="$(date -u +'%Y%m%d')"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Checkout Private Repo
         uses: actions/checkout@v4
         with:
