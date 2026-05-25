@@ -1,7 +1,0 @@
-{
-  "name": "My Awesome Device",
-  "content_in_root": false,
-  "zip_release": true,
-  "filename": "tcg-20260519.zip"
-  "homeassistant": "2024.1.0"
-}
