@@ -47,14 +47,14 @@ jobs:
 
       - name: Rename APK
         run: |
-          mv builder/app/build/outputs/apk/debug/app-debug.apk builder/app/build/outputs/apk/debug/simplekiosk-${{ env.TAG }}.apk        
+          mv builder/app/build/outputs/apk/debug/app-debug.apk builder/app/build/outputs/apk/debug/simplekiosk.apk        
 
       - name: Create Local Release
         uses: softprops/action-gh-release@v2
         with:
           name: SimpleKiosk - Release ${{ env.TAG }}
           tag_name: SimpleKiosk-${{ env.TAG }}
-          files: builder/app/build/outputs/apk/debug/simplekiosk-${{ env.TAG }}.apk
+          files: builder/app/build/outputs/apk/debug/simplekiosk.apk
           draft: false
           prerelease: false
         env:

@@ -44,7 +44,7 @@ jobs:
       - name: Zip build artifacts
         run: |
           cd release
-          zip -r ../tcg-${{ env.TAG }}.zip .
+          zip -r ../tcg_addon.zip .
 
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v1
@@ -53,6 +53,6 @@ jobs:
           tag_name: HomeAssistant-${{ env.TAG }}
           generate_release_notes: true          
           files: |
-            tcg-${{ env.TAG }}.zip
+            tcg_addon.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
