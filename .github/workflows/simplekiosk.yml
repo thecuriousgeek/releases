@@ -18,7 +18,7 @@ jobs:
       - name: Generate datetime tag
         id: tag
         run: |
-          TAG="$(date -u +'%Y%m%d')"
+          TAG="$(date -u +'%Y%m%d-%H%M%S')"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
       - name: Checkout Private Repo
@@ -47,19 +47,16 @@ jobs:
 
       - name: Rename APK
         run: |
-          cp builder/app/build/outputs/apk/debug/app-debug.apk SimpleKiosk.apk
-          cp SimpleKiosk.apk SimpleKiosk-${{ env.TAG }}.apk
-
+          cp builder/app/build/outputs/apk/debug/app-debug.apk simplekiosk.apk
 
       - name: Create Local Release
         uses: softprops/action-gh-release@v2
         with:
-          name: SimpleKiosk
-          tag_name: SimpleKiosk
+          name: SimpleKiosk - Release ${{ env.TAG }}
+          tag_name: simplekiosk-${{ env.TAG }}
           overwrite_files: true
           generate_release_notes: true          
           files: |
-            SimpleKiosk.apk
-            SimpleKiosk-${{ env.TAG }}.apk
+            simplekiosk.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -8,7 +8,7 @@ permissions:
 
 jobs:
   homeassistant:
-    uses: ./.github/workflows/homeassistant.yml
+    uses: ./.github/workflows/hass-addon.yml
     with:
       scan-type: 'deep'
     secrets: inherit

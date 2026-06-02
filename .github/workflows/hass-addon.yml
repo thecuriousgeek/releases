@@ -18,7 +18,7 @@ jobs:
       - name: Generate datetime tag
         id: tag
         run: |
-          TAG="$(date -u +'%Y%m%d')"
+          TAG="$(date -u +'%Y%m%d-%H%M%S')"
           echo "Generated tag: $TAG"
           echo "TAG=$TAG" >> $GITHUB_ENV
 
@@ -44,17 +44,15 @@ jobs:
       - name: Zip build artifacts
         run: |
           cd release
-          zip -r ../tcg_addon.zip .
-          cp tcg_addon.zip tcg_addon-${{ env.TAG }}.zip
+          zip -r ../hass_addon.zip .
 
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          name: "Home Assistant Addon"
-          tag_name: HomeAssistant
+          name: Home Assistant Addon - Release ${{ env.TAG }}
+          tag_name: hass-addon-${{ env.TAG }}
           overwrite_files: true
-          generate_release_notes: true          
           files: |
-            tcg_addon.zip
+            hass_addon.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
