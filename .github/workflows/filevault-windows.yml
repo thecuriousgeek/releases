@@ -50,6 +50,7 @@ jobs:
         run: |
           cd builder/out
           zip -r ../../FileVault.zip .
+          cd ../..
           cp FileVault.zip FileVault-${{ env.TAG }}.zip
 
       - name: Create GitHub Release & Upload Assets
