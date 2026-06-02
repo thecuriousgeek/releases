@@ -55,7 +55,6 @@ jobs:
           name: SimpleKiosk - Release ${{ env.TAG }}
           tag_name: simplekiosk-${{ env.TAG }}
           overwrite_files: true
-          generate_release_notes: true          
           files: |
             simplekiosk.apk
         env:
