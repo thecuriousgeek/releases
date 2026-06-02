@@ -54,7 +54,7 @@ jobs:
       - name: Create Local Release
         uses: softprops/action-gh-release@v2
         with:
-          name: SimpleKiosk
+          name: SimpleKiosk - Release ${{ env.TAG }}
           tag_name: SimpleKiosk
           overwrite_files: true
           generate_release_notes: true          
