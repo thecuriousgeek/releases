@@ -50,13 +50,17 @@ jobs:
         run: |
           cd builder/out
           zip -r ../../FileVault.zip .
+          cp FileVault.zip FileVault-${{ env.TAG }}.zip
 
       - name: Create GitHub Release & Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: filevault-windows-${{ env.TAG }}
-          name: "FileVault Windows - Release ${{ env.TAG }}"
+          tag_name: filevault-windows
+          name: FileVault Windows
+          overwrite_files: true
+          generate_release_notes: true          
           files: |
             FileVault.zip
+            FileVault-${{ env.TAG }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

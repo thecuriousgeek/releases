@@ -45,12 +45,14 @@ jobs:
         run: |
           cd release
           zip -r ../tcg_addon.zip .
+          cp tcg_addon.zip tcg_addon-${{ env.TAG }}.zip
 
       - name: Create GitHub Release & Upload Assets
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          name: "Home Assistant Addon - Release ${{ env.TAG }}"
-          tag_name: HomeAssistant-${{ env.TAG }}
+          name: "Home Assistant Addon"
+          tag_name: HomeAssistant
+          overwrite_files: true
           generate_release_notes: true          
           files: |
             tcg_addon.zip
