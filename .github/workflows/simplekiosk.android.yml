@@ -1,0 +1,72 @@
+name: SimpleKiosk - Android
+on:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      scan-type:
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate datetime tag
+        id: tag
+        run: |
+          TAG="$(date -u +'%Y%m%d-%H%M%S')"
+          echo "TAG=$TAG" >> $GITHUB_ENV
+
+      - name: Checkout Private Repo
+        uses: actions/checkout@v4
+        with:
+          repository: 'thecuriousgeek/simplekiosk.android'
+          token: ${{ secrets.GH_PAT }}
+          path: 'builder'
+
+      # NEW STEP: Dynamically overwrite VERSION_MINOR in memory before Gradle runs
+      - name: Inject TAG into gradle.properties
+        working-directory: builder
+        run: |
+          # Use sed to find VERSION_MINOR= and swap whatever is there with our generated $TAG
+          sed -i "s/VERSION_MINOR=.*/VERSION_MINOR=${{ env.TAG }}/g" gradle.properties
+          
+          # Optional: print it out in the action logs to verify it worked
+          echo "Updated gradle.properties content:"
+          cat gradle.properties
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache-dependency-path: builder/app/build.gradle
+          cache: gradle
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: wrapper
+
+      - name: Build with Gradle
+        working-directory: builder
+        run: gradle assembleDebug
+
+      - name: Rename APK
+        run: |
+          cp builder/app/build/outputs/apk/debug/app-debug.apk simplekiosk.apk
+
+      - name: Create Local Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: SimpleKiosk - Release ${{ env.TAG }}
+          tag_name: simplekiosk-${{ env.TAG }}
+          overwrite_files: true
+          files: |
+            simplekiosk.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

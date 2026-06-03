@@ -32,7 +32,7 @@ jobs:
     secrets: inherit
 
   filevault-windows:
-    uses: ./.github/workflows/filevault-windows.yml
+    uses: ./.github/workflows/filevault.windows.yml
     with:
       scan-type: 'deep'
     secrets: inherit
@@ -48,3 +48,10 @@ jobs:
     with:
       scan-type: 'deep'
     secrets: inherit
+
+  simplekiosk-android:
+    uses: ./.github/workflows/simplekiosk.android.yml
+    with:
+      scan-type: 'deep'
+    secrets: inherit
+    
