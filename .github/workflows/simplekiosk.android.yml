@@ -28,17 +28,6 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           path: 'builder'
 
-      # NEW STEP: Dynamically overwrite VERSION_MINOR in memory before Gradle runs
-      - name: Inject TAG into gradle.properties
-        working-directory: builder
-        run: |
-          # Use sed to find VERSION_MINOR= and swap whatever is there with our generated $TAG
-          sed -i "s/VERSION_MINOR=.*/VERSION_MINOR=${{ env.TAG }}/g" gradle.properties
-          
-          # Optional: print it out in the action logs to verify it worked
-          echo "Updated gradle.properties content:"
-          cat gradle.properties
-
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -54,7 +43,7 @@ jobs:
 
       - name: Build with Gradle
         working-directory: builder
-        run: gradle assembleDebug
+        run: gradle assembleDebug -PVERSION_MINOR=${{ env.TAG }}
 
       - name: Rename APK
         run: |
